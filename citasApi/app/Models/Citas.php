@@ -14,6 +14,7 @@ class Citas extends Model{
         'motivo',
     ];
 
+
     public function pacientes(){
         return $this->belongsTo(Pacientes::class, 'paciente_id');
     }
