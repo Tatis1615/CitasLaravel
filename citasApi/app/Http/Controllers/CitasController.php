@@ -11,14 +11,13 @@ class CitasController extends Controller
 {
     public function index(){
         $citas = Citas::all();
-
         return response()->json($citas);
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|exists:pacientes,email',
+            'paciente_id' => 'required|exists:pacientes,id',
             'medico_id' => 'required|exists:medicos,id',
             'consultorio_id' => 'required|exists:consultorios,id',
             'fecha_hora' => 'required|date',
@@ -26,10 +25,8 @@ class CitasController extends Controller
             'motivo' => 'required|string',
         ]);
 
-        $paciente = Pacientes::where('email', $request->email)->first();
-
         $cita = Citas::create([
-            'paciente_id' => $paciente->id,
+            'paciente_id' => $request->paciente_id,
             'medico_id' => $request->medico_id,
             'consultorio_id' => $request->consultorio_id,
             'fecha_hora' => $request->fecha_hora,
@@ -44,10 +41,9 @@ class CitasController extends Controller
     }
 
 
-
     public function show(string $id){
         $cita = Citas::find($id);
-        
+
         if (!$cita) {
             return response()->json(['message' => 'Cita no encontrada'], 404);
         }
@@ -81,6 +77,7 @@ class CitasController extends Controller
     }
 
     public function destroy(string $id){
+
         $cita = Citas::find($id);
 
         if (!$cita) {
@@ -97,18 +94,17 @@ class CitasController extends Controller
     }
 
     public function listarCitasDeHoy() {
+
         $hoy = now()->toDateString(); 
         $citas = Citas::whereDate('fecha_hora', $hoy)->get();
         return response()->json($citas);
     }
-
 
     public function listarCitasPaciente(Request $request)
     {
         try {
             $user = auth()->user();
 
-            // Buscar paciente por email
             $paciente = \App\Models\Pacientes::where('email', $user->email)->first();
 
             if (!$paciente) {
@@ -118,14 +114,13 @@ class CitasController extends Controller
                 ], 404);
             }
 
-            // Traer citas de ese paciente
             $citas = \App\Models\Citas::where('paciente_id', $paciente->id)
                 ->with(['medicos', 'consultorios'])
                 ->get();
 
             return response()->json([
                 "success" => true,
-                "paciente_id" => $paciente->id, // 👈 lo sigues mandando al front
+                "paciente_id" => $paciente->id,
                 "data" => $citas
             ]);
         } catch (\Exception $e) {
@@ -135,11 +130,4 @@ class CitasController extends Controller
             ], 500);
         }
     }
-
-
-
-
-
-
 }
-

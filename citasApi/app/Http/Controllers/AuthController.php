@@ -18,8 +18,8 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
             'role' => 'required',
-
         ]);
+
         if ($validator->fails()) {
             return response()->json([
                 'errors' => $validator->errors()
@@ -57,7 +57,7 @@ class AuthController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
-            'message' => 'Hi ' . $user->name,
+            'message' => 'Bienvenido ' . $user->name,
             'access_token' => $token,
             'token_type' => 'Bearer',
             'user' => $user

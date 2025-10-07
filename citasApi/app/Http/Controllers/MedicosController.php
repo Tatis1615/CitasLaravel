@@ -19,7 +19,7 @@ class MedicosController extends Controller
 
     public function store(Request $request){
         $validador = Validator::make($request->all(),[
-            'especialidad_id' => 'required|string|exists:especialidades,id',
+            'especialidad_id' => 'required|integer|exists:especialidades,id',
             'nombre_m' => 'required|string|max:255',
             'apellido_m' => 'required|string|max:255',
             'edad' => 'required|string|min:0',

@@ -3,7 +3,7 @@
 use App\Http\Controllers\CitasController;
 use App\Http\Controllers\ConsultoriosController;
 use App\Http\Controllers\EspecialidadesController;
-use App\Http\Controllers\MedicosController;
+use App\Http\Controllers\MedicosController; 
 use App\Http\Controllers\PacientesController;
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\RoleMiddleware;
