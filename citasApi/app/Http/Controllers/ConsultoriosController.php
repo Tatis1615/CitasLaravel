@@ -80,7 +80,7 @@ class ConsultoriosController extends Controller
         }
 
         $consultorio->delete();
-        return response()->json(null, 204);
+        return response()->json(['message' => 'Consultorio eliminado correctamente']);
     }
 }
 

@@ -43,6 +43,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::put('actualizarMedico/{id}', [MedicosController::class, 'update']);
         Route::get('citas/{id}', [CitasController::class, 'show']);
         Route::put('actualizarCita/{id}', [CitasController::class, 'update']);
+        Route::delete('eliminarEspecialidad/{id}', [EspecialidadesController::class, 'destroy']);
+        Route::delete('eliminarConsultorio/{id}', [ConsultoriosController::class, 'destroy']);
+        Route::delete('eliminarCita/{id}', [CitasController::class, 'destroy']);
     });
 
     Route::middleware([RoleMiddleware::class . ':admin,paciente'])->group(function () {
@@ -56,7 +59,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('especialidades/{id}', [EspecialidadesController::class, 'show']);
         Route::get('listarCitasPaciente', [CitasController::class, 'listarCitasPaciente']);
         Route::post('crearPaciente', [PacientesController::class, 'store']);
+        Route::delete('eliminarCita/{id}', [CitasController::class, 'destroy']);
+        Route::get('/pacientePorUsuario/{user_id}', [PacientesController::class, 'obtenerPorUsuario']);
 
+        Route::put('actualizarPaciente/{id}', [PacientesController::class, 'update']);
+        Route::put('/editarUsuario/{id}', [AuthController::class, 'update']);
+        Route::get('pacientes/{id}', [PacientesController::class, 'show']);
     });
 });
 
