@@ -88,6 +88,43 @@ class CitasController extends Controller
         return response()->json(['message' => 'Cita eliminada']);
     }
 
+
+    public function listarCitasMedico(Request $request)
+    {
+        try {
+            // Obtener el usuario autenticado
+            $user = auth()->user();
+
+            // Buscar al médico por el email del usuario autenticado
+            $medico = \App\Models\Medicos::where('email', $user->email)->first();
+
+            if (!$medico) {
+                return response()->json([
+                    "success" => false,
+                    "message" => "Médico no encontrado"
+                ], 404);
+            }
+
+            // Buscar las citas asociadas al médico
+            $citas = \App\Models\Citas::where('medico_id', $medico->id)
+                ->with(['pacientes', 'consultorios'])
+                ->get();
+
+            return response()->json([
+                "success" => true,
+                "medico_id" => $medico->id,
+                "data" => $citas
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "success" => false,
+                "error" => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
+
     public function listarCitasPendientes() {
         $citas = Citas::where('estado', 'pendiente')->get();
         return response()->json($citas);
@@ -100,6 +137,8 @@ class CitasController extends Controller
         return response()->json($citas);
     }
 
+
+    
     public function listarCitasPaciente(Request $request)
     {
         try {

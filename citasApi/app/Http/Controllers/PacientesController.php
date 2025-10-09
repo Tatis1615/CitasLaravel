@@ -90,8 +90,30 @@ class PacientesController extends Controller
         }
 
         $paciente->delete();
-        return response()->json(null, 204);
+        return response()->json(['message' => 'Paciente eliminado correctamente']);
     }
+
+ 
+
+    public function buscarPorEmail($email)
+    {
+        $paciente = \App\Models\Pacientes::where('email', $email)->first();
+
+        if (!$paciente) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Paciente no encontrado'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $paciente
+        ]);
+    }
+
+
+
 
 
 

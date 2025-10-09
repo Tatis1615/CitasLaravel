@@ -24,6 +24,7 @@ class MedicosController extends Controller
             'apellido_m' => 'required|string|max:255',
             'edad' => 'required|string|min:0',
             'telefono' => 'required|string|max:255',
+            'email' => 'required|string|max:255',
         ]);
 
         if ($validador->fails()) {
@@ -64,6 +65,7 @@ class MedicosController extends Controller
             'apellido_m' => 'string|max:255',
             'edad' => 'string|min:0',
             'telefono' => 'string|max:255',
+            'email' => 'string|max:255',
         ]);
 
         if ($validador->fails()) {

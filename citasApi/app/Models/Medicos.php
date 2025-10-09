@@ -11,6 +11,7 @@ class Medicos extends Model{
         'apellido_m',
         'edad', 
         'telefono',
+        'email',
     ];
 
     public function especialidades(){

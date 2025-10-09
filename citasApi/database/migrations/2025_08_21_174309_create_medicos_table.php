@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('apellido_m')->nullable();
             $table->string('edad')->nullable();
             $table->string('telefono')->nullable();
+            $table->string('email')->unique();
             $table->timestamps();
         });
     }
