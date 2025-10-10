@@ -91,6 +91,24 @@ class MedicosController extends Controller
         return response()->json(['message' => 'Medico eliminado correctamente']);
     }
 
+
+
+    public function buscarPorEmail($email)
+    {
+        $medico = \App\Models\Medicos::where('email', $email)->first();
+
+        if (!$medico) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Medico no encontrado'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $medico
+        ]);
+    }
     
 
     public function listarMedicosSinCitas() {

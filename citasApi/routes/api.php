@@ -41,14 +41,15 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('citas/{id}', [CitasController::class, 'show']);
         Route::put('actualizarPaciente/{id}', [PacientesController::class, 'update']);
         Route::put('actualizarMedico/{id}', [MedicosController::class, 'update']);
-        Route::get('citas/{id}', [CitasController::class, 'show']);
         Route::put('actualizarCita/{id}', [CitasController::class, 'update']);
         Route::delete('eliminarEspecialidad/{id}', [EspecialidadesController::class, 'destroy']);
         Route::delete('eliminarConsultorio/{id}', [ConsultoriosController::class, 'destroy']);
         Route::delete('eliminarCita/{id}', [CitasController::class, 'destroy']);
+        Route::get('listarCitasMedico', [CitasController::class, 'listarCitasMedico']);
+        Route::get('listarEspecialidades', [EspecialidadesController::class, 'index']);
     });
 
-    Route::middleware([RoleMiddleware::class . ':admin,paciente'])->group(function () {
+    Route::middleware([RoleMiddleware::class . ':admin,paciente,medico'])->group(function () {
         Route::get('listarMedicos', [MedicosController::class, 'index']);
         Route::get('listarEspecialidades', [EspecialidadesController::class, 'index']);
         Route::get('listarConsultorios', [ConsultoriosController::class, 'index']);
@@ -60,11 +61,15 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('listarCitasPaciente', [CitasController::class, 'listarCitasPaciente']);
         Route::post('crearPaciente', [PacientesController::class, 'store']);
         Route::delete('eliminarCita/{id}', [CitasController::class, 'destroy']);
-        Route::get('/pacientePorUsuario/{user_id}', [PacientesController::class, 'obtenerPorUsuario']);
-
+        Route::get('listarPacientes', [PacientesController::class, 'index']);
         Route::put('actualizarPaciente/{id}', [PacientesController::class, 'update']);
         Route::put('/editarUsuario/{id}', [AuthController::class, 'update']);
         Route::get('pacientes/{id}', [PacientesController::class, 'show']);
+        Route::get('listarCitasMedico', [CitasController::class, 'listarCitasMedico']);
+        Route::put('actualizarCita/{id}', [CitasController::class, 'update']);
+        Route::get('/pacientePorEmail/{email}', [PacientesController::class, 'buscarPorEmail']);
+        Route::get('/medicoPorEmail/{email}', [MedicosController::class, 'buscarPorEmail']);
+        Route::post('crearMedico', [MedicosController::class, 'store']);
     });
 });
 
