@@ -113,6 +113,18 @@ class PacientesController extends Controller
     }
 
 
+    public function actualizarPorEmail(Request $request, $email)
+    {
+        $paciente = Pacientes::where('email', $email)->first();
+
+        if (!$paciente) {
+            return response()->json(['error' => 'Paciente no encontrado'], 404);
+        }
+
+        $paciente->update($request->all());
+
+        return response()->json(['message' => 'Paciente actualizado correctamente', 'paciente' => $paciente]);
+    }
 
 
 

@@ -111,6 +111,20 @@ class MedicosController extends Controller
     }
     
 
+    public function actualizarPorEmail(Request $request, $email)
+    {
+        $medico = Medicos::where('email', $email)->first();
+
+        if (!$medico) {
+            return response()->json(['error' => 'Médico no encontrado'], 404);
+        }
+
+        $medico->update($request->all());
+
+        return response()->json(['message' => 'Médico actualizado correctamente', 'medico' => $medico]);
+    }
+
+
     public function listarMedicosSinCitas() {
         $medicos = Medicos::doesntHave('citas')->get();
         return response()->json($medicos);

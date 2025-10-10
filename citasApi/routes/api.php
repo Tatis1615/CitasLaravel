@@ -70,6 +70,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/pacientePorEmail/{email}', [PacientesController::class, 'buscarPorEmail']);
         Route::get('/medicoPorEmail/{email}', [MedicosController::class, 'buscarPorEmail']);
         Route::post('crearMedico', [MedicosController::class, 'store']);
+        Route::put('/actualizarPacienteEmail/{email}', [PacientesController::class, 'actualizarPorEmail']);
+        Route::put('/actualizarMedicoEmail/{email}', [MedicosController::class, 'actualizarPorEmail']);
+
     });
 });
 
